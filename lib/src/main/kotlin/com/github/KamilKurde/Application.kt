@@ -23,13 +23,12 @@ object Application {
 		CoroutineScope(Job()).launch {
 			application(false) {
 				windows.forEach { window ->
-					val windowState = rememberWindowState(
+					val windowState = WindowState(
 						width = window.width,
 						height = window.height,
 						isMinimized = window.isMinimized,
 						placement = window.placement,
-						position = window.position
-					)
+						position = window.position)
 					Window(
 						onCloseRequest = window.onCloseRequest ?: { window.close() },
 						state = windowState,
@@ -44,6 +43,12 @@ object Application {
 						onPreviewKeyEvent = window.onPreviewKeyEvent,
 						onKeyEvent = window.onKeyEvent,
 						content = {
+							window.apply {
+								height = windowState.size.height
+								width = windowState.size.width
+								placement = windowState.placement
+								position = windowState.position
+							}
 							AnimatedContent(window.activityStack.last().content)
 							{ content ->
 								content()

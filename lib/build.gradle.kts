@@ -7,12 +7,27 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.KamilKurde"
-version = "0.1"
+val groupString = "com.github.KamilKurde"
+val versionString = "0.1"
+
+group = groupString
+version = versionString
 
 java{
     withJavadocJar()
     withSourcesJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = groupString
+            artifactId = "cdalf"
+            version = versionString
+
+            from(components["java"])
+        }
+    }
 }
 
 repositories {

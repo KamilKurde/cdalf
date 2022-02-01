@@ -48,6 +48,7 @@ abstract class Activity {
 		{
 			destroy()
 		}
+		parent.activityStack.remove(this)
 	}
 
 	// Each lifecycle event has corresponding invocation method

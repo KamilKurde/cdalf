@@ -5,7 +5,6 @@
 .idea/
 .gradle/
 build/
-gradle/
 
 # Build
 distributables/

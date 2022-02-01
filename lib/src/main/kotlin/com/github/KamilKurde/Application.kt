@@ -7,18 +7,19 @@ import androidx.compose.ui.window.*
 import kotlinx.coroutines.*
 
 object Application {
+	
 	val windows = mutableStateListOf<Window>()
-
+	
 	// Turns true if main function ended executing
 	private var canClose = false
-
+	
 	@OptIn(ExperimentalAnimationApi::class)
 	operator fun invoke(main: suspend () -> Unit) {
 		CoroutineScope(Job()).launch {
 			main()
 			canClose = true
 		}
-
+		
 		CoroutineScope(Job()).launch {
 			application(false) {
 				windows.forEach { window ->
@@ -52,7 +53,7 @@ object Application {
 				}
 			}
 		}
-
+		
 		runBlocking {
 			while (!canClose) {
 				delay(100L)

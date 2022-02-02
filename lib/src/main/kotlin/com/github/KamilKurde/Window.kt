@@ -59,7 +59,7 @@ class Window(
 		Application.windows.remove(this)
 	}
 	
-	fun startActivity(activity: Activity) {
+	internal fun startActivity(activity: Activity) {
 		activityStack.lastOrNull()?.let {
 			it.pause()
 			it.stop()

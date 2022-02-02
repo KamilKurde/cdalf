@@ -103,4 +103,6 @@ abstract class Activity {
 		onBackPressed()
 		finish()
 	}
+	
+	abstract fun copy(): Activity
 }

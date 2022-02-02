@@ -28,18 +28,18 @@ publishing {
 			
 			from(components["java"])
 			
-			pom{
+			pom {
 				packaging = "jar"
 				name.set(artifactString)
 				description.set("Compose Desktop Android-like Framework")
 				url.set("https://github.com/KamilKurde/cdalf")
-				scm{
+				scm {
 					url.set("https://github.com/KamilKurde/cdalf")
 				}
 				issueManagement {
 					url.set("https://github.com/KamilKurde/cdalf/issues")
 				}
-				developers{
+				developers {
 					developer {
 						id.set("KamilKurde")
 						name.set("Kamil Bąk")

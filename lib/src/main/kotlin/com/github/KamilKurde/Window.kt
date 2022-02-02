@@ -64,7 +64,7 @@ class Window(
 			it.pause()
 			it.stop()
 		}
-		activity.apply {
+		activity.copy().apply {
 			activityStack.add(this)
 			parent = this@Window
 			create()
@@ -86,10 +86,6 @@ class Window(
 				start()
 				resume()
 			}
-		}
-		when {
-			activityStack.isEmpty() -> close()
-			else -> activityStack.last().start()
 		}
 	}
 }

@@ -23,7 +23,8 @@ object Application {
 		
 		CoroutineScope(Job()).launch {
 			application(false) {
-				windows.forEach { window ->
+				val partitioned = windows.partition { it.activityStack.isNotEmpty() }
+				partitioned.first.forEach { window ->
 					val windowState = WindowState(
 						width = window.width,
 						height = window.height,
@@ -50,12 +51,15 @@ object Application {
 								placement = windowState.placement
 								position = windowState.position
 							}
-							AnimatedContent(window.activityStack.last().content)
-							{ content ->
-								content()
+							AnimatedContent(window.activityStack.last())
+							{ activity ->
+								activity.content()
 							}
 						}
 					)
+				}
+				partitioned.second.forEach {
+					it.close()
 				}
 			}
 		}

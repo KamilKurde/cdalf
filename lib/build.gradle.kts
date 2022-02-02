@@ -8,7 +8,8 @@ plugins {
 }
 
 val groupString = "com.github.KamilKurde"
-val versionString = "0.1"
+val versionString = "0.1.1"
+val artifactString = "cdalf"
 
 group = groupString
 version = versionString
@@ -22,10 +23,30 @@ publishing {
 	publications {
 		create<MavenPublication>("maven") {
 			groupId = groupString
-			artifactId = "cdalf"
+			artifactId = artifactString
 			version = versionString
 			
 			from(components["java"])
+			
+			pom{
+				packaging = "jar"
+				name.set(artifactString)
+				description.set("Compose Desktop Android-like Framework")
+				url.set("https://github.com/KamilKurde/cdalf")
+				scm{
+					url.set("https://github.com/KamilKurde/cdalf")
+				}
+				issueManagement {
+					url.set("https://github.com/KamilKurde/cdalf/issues")
+				}
+				developers{
+					developer {
+						id.set("KamilKurde")
+						name.set("Kamil Bąk")
+						url.set("https://github.com/KamilKurde")
+					}
+				}
+			}
 		}
 	}
 }

@@ -13,6 +13,7 @@ object Application {
 	// Turns true if main function ended executing
 	private var canClose = false
 	
+	@Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
 	@OptIn(ExperimentalAnimationApi::class)
 	operator fun invoke(main: suspend () -> Unit) {
 		CoroutineScope(Job()).launch {

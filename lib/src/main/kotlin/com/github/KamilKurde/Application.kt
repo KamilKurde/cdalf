@@ -4,7 +4,8 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.window.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 
 object Application {
 	
@@ -15,59 +16,50 @@ object Application {
 	
 	@Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
 	@OptIn(ExperimentalAnimationApi::class)
-	operator fun invoke(main: suspend () -> Unit) {
-		CoroutineScope(Job()).launch {
-			main()
-			canClose = true
-		}
-		
-		CoroutineScope(Job()).launch {
-			application(false) {
-				val partitioned = windows.partition { it.activityStack.isNotEmpty() }
-				partitioned.first.forEach { window ->
-					val windowState = WindowState(
-						width = window.width,
-						height = window.height,
-						isMinimized = window.isMinimized,
-						placement = window.placement,
-						position = window.position)
-					Window(
-						onCloseRequest = window.onCloseRequest ?: { window.close() },
-						state = windowState,
-						title = window.title,
-						icon = window.icon,
-						undecorated = window.undecorated,
-						transparent = window.transparent,
-						resizable = window.resizable,
-						enabled = window.enabled,
-						focusable = window.focusable,
-						alwaysOnTop = window.alwaysOnTop,
-						onPreviewKeyEvent = window.onPreviewKeyEvent,
-						onKeyEvent = window.onKeyEvent,
-						content = {
-							window.apply {
-								height = windowState.size.height
-								width = windowState.size.width
-								placement = windowState.placement
-								position = windowState.position
-							}
-							AnimatedContent(window.activityStack.last())
-							{ activity ->
-								activity.content()
-							}
-						}
-					)
-				}
-				partitioned.second.forEach {
-					it.close()
-				}
+	operator fun invoke(main: suspend CoroutineScope.() -> Unit) = application(false) {
+		if (!canClose) {
+			runBlocking {
+				main()
+				canClose = true
 			}
 		}
-		
-		runBlocking {
-			while (!canClose) {
-				delay(100L)
-			}
+		val partitioned = windows.partition { it.activityStack.isNotEmpty() }
+		partitioned.first.forEach { window ->
+			val windowState = WindowState(
+				width = window.width,
+				height = window.height,
+				isMinimized = window.isMinimized,
+				placement = window.placement,
+				position = window.position)
+			Window(
+				onCloseRequest = window.onCloseRequest ?: { window.close() },
+				state = windowState,
+				title = window.title,
+				icon = window.icon,
+				undecorated = window.undecorated,
+				transparent = window.transparent,
+				resizable = window.resizable,
+				enabled = window.enabled,
+				focusable = window.focusable,
+				alwaysOnTop = window.alwaysOnTop,
+				onPreviewKeyEvent = window.onPreviewKeyEvent,
+				onKeyEvent = window.onKeyEvent,
+				content = {
+					window.apply {
+						height = windowState.size.height
+						width = windowState.size.width
+						placement = windowState.placement
+						position = windowState.position
+					}
+					AnimatedContent(window.activityStack.last())
+					{ activity ->
+						activity.content()
+					}
+				}
+			)
+		}
+		partitioned.second.forEach {
+			it.close()
 		}
 	}
 }

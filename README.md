@@ -49,10 +49,10 @@ fun main() = Application {
 ```
 
 * Creating Activity
-    * Create class that inherits from Activity
-    * Implement copy method
-    * Use setContent method to define UI
-    * example:
+	* Create class that inherits from Activity
+	* Implement copy method
+	* Use setContent method to define UI
+	* example:
 
 ```kotlin
 class YourActivity: Activity()
@@ -69,8 +69,9 @@ class YourActivity: Activity()
 ```
 
 * Starting Activity
-  * Instantiate Window class and pass Activity to it
-  * example:
+	* Instantiate Window class and pass Activity to it
+	* example:
+
 ```kotlin
 Window(YourActivity())
 ```

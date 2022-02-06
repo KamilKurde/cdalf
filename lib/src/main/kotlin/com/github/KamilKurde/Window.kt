@@ -45,7 +45,7 @@ class Window(
 	var onCloseRequest by mutableStateOf(onCloseRequest)
 	var onPreviewKeyEvent by mutableStateOf(onPreviewKeyEvent)
 	var onKeyEvent by mutableStateOf(onKeyEvent)
-	var activityStack = mutableStateListOf<Activity>()
+	var activityStack = ActivityStack(this)
 	private var windowClosed = false
 	
 	init {
@@ -76,7 +76,7 @@ class Window(
 			it.stop()
 		}
 		primaryConstructor.call().apply {
-			activityStack.add(this)
+			activityStack.push(this)
 			parent = this@Window
 			this.intent = intent.copy()
 			create()
@@ -86,18 +86,11 @@ class Window(
 	}
 	
 	fun back() {
+		activityStack.pop()
 		activityStack.lastOrNull()?.apply {
-			back()
-			finish()
-		}
-		if (activityStack.isEmpty()) {
-			close()
-		} else {
-			activityStack.last().apply {
-				restart()
-				start()
-				resume()
-			}
+			restart()
+			start()
+			resume()
 		}
 	}
 }

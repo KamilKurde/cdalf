@@ -2,7 +2,7 @@ package com.github.KamilKurde
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
@@ -23,8 +23,7 @@ object Application {
 				canClose = true
 			}
 		}
-		val partitioned = windows.partition { it.activityStack.isNotEmpty() }
-		partitioned.first.forEach { window ->
+		windows.forEach { window ->
 			val windowState = WindowState(
 				width = window.size.width,
 				height = window.size.height,
@@ -50,15 +49,13 @@ object Application {
 						placement = windowState.placement
 						position = windowState.position
 					}
-					AnimatedContent(window.activityStack.last())
+					val lastLayout by remember { mutableStateOf(window.activityStack.lastOrNull()?.content ?: {}) }
+					AnimatedContent(window.activityStack.lastOrNull())
 					{ activity ->
-						activity.content()
+						(activity?.content ?: lastLayout)()
 					}
 				}
 			)
-		}
-		partitioned.second.forEach {
-			it.close()
 		}
 	}
 }

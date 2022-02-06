@@ -26,8 +26,8 @@ object Application {
 		val partitioned = windows.partition { it.activityStack.isNotEmpty() }
 		partitioned.first.forEach { window ->
 			val windowState = WindowState(
-				width = window.width,
-				height = window.height,
+				width = window.size.width,
+				height = window.size.height,
 				isMinimized = window.isMinimized,
 				placement = window.placement,
 				position = window.position)
@@ -46,8 +46,7 @@ object Application {
 				onKeyEvent = window.onKeyEvent,
 				content = {
 					window.apply {
-						height = windowState.size.height
-						width = windowState.size.width
+						size = windowState.size
 						placement = windowState.placement
 						position = windowState.position
 					}

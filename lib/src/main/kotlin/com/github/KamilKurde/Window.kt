@@ -3,7 +3,7 @@ package com.github.KamilKurde
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
@@ -23,12 +23,12 @@ class Window(
 	placement: WindowPlacement = WindowPlacement.Floating,
 	isMinimized: Boolean = false,
 	position: WindowPosition = WindowPosition.PlatformDefault,
-	width: Dp = 800.dp,
-	height: Dp = 600.dp,
+	size: DpSize = DpSize(800.dp, 600.dp),
 	onCloseRequest: (() -> Unit)? = null,
 	onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
 	onKeyEvent: (KeyEvent) -> Boolean = { false },
 ) {
+	
 	
 	var title by mutableStateOf(title)
 	var icon by mutableStateOf(icon)
@@ -41,8 +41,7 @@ class Window(
 	var placement by mutableStateOf(placement)
 	var isMinimized by mutableStateOf(isMinimized)
 	var position by mutableStateOf(position)
-	var width by mutableStateOf(width)
-	var height by mutableStateOf(height)
+	var size by mutableStateOf(size)
 	var onCloseRequest by mutableStateOf(onCloseRequest)
 	var onPreviewKeyEvent by mutableStateOf(onPreviewKeyEvent)
 	var onKeyEvent by mutableStateOf(onKeyEvent)

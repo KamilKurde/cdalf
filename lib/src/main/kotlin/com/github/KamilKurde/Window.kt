@@ -7,9 +7,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
+import com.github.KamilKurde.exceptions.IllegalWindowException
 
+@Suppress("unused")
 class Window(
-	startingActivity: Activity,
+	startingIntent: Intent,
 	title: String = "Untitled",
 	icon: Painter? = null,
 	undecorated: Boolean = false,
@@ -45,10 +47,11 @@ class Window(
 	var onPreviewKeyEvent by mutableStateOf(onPreviewKeyEvent)
 	var onKeyEvent by mutableStateOf(onKeyEvent)
 	var activityStack = mutableStateListOf<Activity>()
+	private var activityClosed = false
 	
 	init {
 		Application.windows.add(this)
-		startActivity(startingActivity)
+		startActivity(startingIntent)
 	}
 	
 	fun close() {
@@ -57,16 +60,26 @@ class Window(
 		}
 		activityStack.clear()
 		Application.windows.remove(this)
+		activityClosed = true
 	}
 	
-	internal fun startActivity(activity: Activity) {
+	internal fun startActivity(intent: Intent) {
+		if (activityClosed) {
+			throw IllegalWindowException(intent, this)
+		}
+		
+		val activity = intent.activity
+		val primaryConstructor = intent.activity.constructors.first()
+		require(primaryConstructor.parameters.isEmpty()) { "Activity ${activity.simpleName} doesn't have no argument constructor" }
+		
 		activityStack.lastOrNull()?.let {
 			it.pause()
 			it.stop()
 		}
-		activity.copy().apply {
+		primaryConstructor.call().apply {
 			activityStack.add(this)
 			parent = this@Window
+			this.intent = intent.copy()
 			create()
 			start()
 			resume()

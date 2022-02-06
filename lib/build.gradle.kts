@@ -8,7 +8,7 @@ plugins {
 }
 
 val groupString = "com.github.KamilKurde"
-val versionString = "0.1.2"
+val versionString = "0.2.0"
 val artifactString = "cdalf"
 
 group = groupString
@@ -65,6 +65,9 @@ dependencies {
 	
 	// Align versions of all Kotlin components
 	implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+	
+	// Reflection API required for activity instantiation
+	api(kotlin("reflect"))
 }
 
 val compileKotlin: KotlinCompile by tasks

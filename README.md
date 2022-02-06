@@ -50,15 +50,11 @@ fun main() = Application {
 
 * Creating Activity
 	* Create class that inherits from Activity
-	* Implement copy method
 	* Use setContent method to define UI
 	* example:
 
 ```kotlin
-class YourActivity: Activity()
-{
-	override fun copy() = YourActivity()
-	
+class YourActivity : Activity() {
 	override fun onCreate() {
 		super.onCreate()
 		setContent {
@@ -69,11 +65,13 @@ class YourActivity: Activity()
 ```
 
 * Starting Activity
-	* Instantiate Window class and pass Activity to it
-	* example:
+  * Instantiate Intent class and pass your Activity class to it 
+  * Instantiate Window class and pass Intent to it
+  * example:
 
 ```kotlin
-Window(YourActivity())
+val intent = Intent(YourActivity::class)
+Window(intent)
 ```
 
 ##### EXAMPLE OF SIMPLE APP
@@ -82,10 +80,7 @@ Window(YourActivity())
 import androidx.compose.material.*
 import com.github.KamilKurde.*
 
-class YourActivity: Activity()
-{
-	override fun copy() = YourActivity()
-
+class YourActivity : Activity() {
 	override fun onCreate() {
 		super.onCreate()
 		setContent {
@@ -95,6 +90,7 @@ class YourActivity: Activity()
 }
 
 fun main() = Application {
-	Window(YourActivity())
+	val intent = Intent(YourActivity::class)
+	Window(intent)
 }
 ```

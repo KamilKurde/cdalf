@@ -2,13 +2,16 @@ package com.github.KamilKurde
 
 import androidx.compose.runtime.*
 
+@Suppress("unused")
 abstract class Activity {
 	
 	internal var content: @Composable () -> Unit by mutableStateOf({})
 	
 	lateinit var parent: Window
 	
-	fun startActivity(activity: Activity) = parent.startActivity(activity)
+	lateinit var intent: Intent
+	
+	fun startActivity(intent: Intent) = parent.startActivity(intent)
 	
 	// State enum with 'stage' representing activity lifecyle eg. for checking if activity did start you can check if state.stage >= 3
 	enum class State(internal val stage: Int) {
@@ -103,6 +106,4 @@ abstract class Activity {
 		onBackPressed()
 		finish()
 	}
-	
-	abstract fun copy(): Activity
 }

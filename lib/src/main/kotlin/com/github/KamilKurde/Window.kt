@@ -46,7 +46,7 @@ class Window(
 	var onPreviewKeyEvent by mutableStateOf(onPreviewKeyEvent)
 	var onKeyEvent by mutableStateOf(onKeyEvent)
 	var activityStack = mutableStateListOf<Activity>()
-	private var activityClosed = false
+	private var windowClosed = false
 	
 	init {
 		Application.windows.add(this)
@@ -59,11 +59,11 @@ class Window(
 		}
 		activityStack.clear()
 		Application.windows.remove(this)
-		activityClosed = true
+		windowClosed = true
 	}
 	
 	internal fun startActivity(intent: Intent) {
-		if (activityClosed) {
+		if (windowClosed) {
 			throw IllegalWindowException(intent, this)
 		}
 		

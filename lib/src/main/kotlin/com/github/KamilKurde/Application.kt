@@ -12,40 +12,36 @@ object Application {
 	
 	val windows = mutableStateListOf<Window>()
 	
-	// Turns true if main function ended executing
-	private var canClose = false
-	
 	@Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
 	@OptIn(ExperimentalAnimationApi::class)
-	operator fun invoke(main: suspend CoroutineScope.() -> Unit) = application(false) {
-		if (!canClose) {
-			runBlocking {
-				main()
-				canClose = true
-			}
+	operator fun invoke(main: suspend CoroutineScope.() -> Unit) {
+		runBlocking {
+			main()
 		}
-		windows.forEach { window ->
-			Window(
-				onCloseRequest = window.onCloseRequest ?: { window.close() },
-				state = window.windowState,
-				title = window.title,
-				icon = window.icon,
-				undecorated = window.undecorated,
-				transparent = window.transparent,
-				resizable = window.resizable,
-				enabled = window.enabled,
-				focusable = window.focusable,
-				alwaysOnTop = window.alwaysOnTop,
-				onPreviewKeyEvent = window.onPreviewKeyEvent,
-				onKeyEvent = window.onKeyEvent,
-				content = {
-					val lastLayout by remember { mutableStateOf(window.activityStack.lastOrNull()?.content ?: {}) }
-					AnimatedContent(window.activityStack.lastOrNull())
-					{ activity ->
-						(activity?.content ?: lastLayout)()
+		application(false) {
+			windows.forEach { window ->
+				Window(
+					onCloseRequest = window.onCloseRequest ?: { window.close() },
+					state = window.windowState,
+					title = window.title,
+					icon = window.icon,
+					undecorated = window.undecorated,
+					transparent = window.transparent,
+					resizable = window.resizable,
+					enabled = window.enabled,
+					focusable = window.focusable,
+					alwaysOnTop = window.alwaysOnTop,
+					onPreviewKeyEvent = window.onPreviewKeyEvent,
+					onKeyEvent = window.onKeyEvent,
+					content = {
+						val lastLayout by remember { mutableStateOf(window.activityStack.lastOrNull()?.content ?: {}) }
+						AnimatedContent(window.activityStack.lastOrNull())
+						{ activity ->
+							(activity?.content ?: lastLayout)()
+						}
 					}
-				}
-			)
+				)
+			}
 		}
 	}
 }

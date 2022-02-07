@@ -5,8 +5,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowPlacement
-import androidx.compose.ui.window.WindowPosition
+import androidx.compose.ui.window.*
 import com.github.KamilKurde.exceptions.IllegalWindowException
 
 @Suppress("unused")
@@ -20,10 +19,7 @@ class Window(
 	enabled: Boolean = true,
 	focusable: Boolean = true,
 	alwaysOnTop: Boolean = false,
-	placement: WindowPlacement = WindowPlacement.Floating,
-	isMinimized: Boolean = false,
-	position: WindowPosition = WindowPosition.PlatformDefault,
-	size: DpSize = DpSize(800.dp, 600.dp),
+	windowState: WindowState = WindowState(WindowPlacement.Floating, false, WindowPosition.PlatformDefault, DpSize(800.dp, 600.dp)),
 	onCloseRequest: (() -> Unit)? = null,
 	onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
 	onKeyEvent: (KeyEvent) -> Boolean = { false },
@@ -38,15 +34,12 @@ class Window(
 	var enabled by mutableStateOf(enabled)
 	var focusable by mutableStateOf(focusable)
 	var alwaysOnTop by mutableStateOf(alwaysOnTop)
-	var placement by mutableStateOf(placement)
-	var isMinimized by mutableStateOf(isMinimized)
-	var position by mutableStateOf(position)
-	var size by mutableStateOf(size)
+	var windowState by mutableStateOf(windowState)
 	var onCloseRequest by mutableStateOf(onCloseRequest)
 	var onPreviewKeyEvent by mutableStateOf(onPreviewKeyEvent)
 	var onKeyEvent by mutableStateOf(onKeyEvent)
 	var activityStack = ActivityStack(this)
-	private var windowClosed = false
+	var isClosed = false
 	
 	init {
 		Application.windows.add(this)
@@ -54,16 +47,16 @@ class Window(
 	}
 	
 	fun close() {
+		isClosed = true
 		activityStack.reversed().forEach {
 			it.finish()
 		}
 		activityStack.clear()
 		Application.windows.remove(this)
-		windowClosed = true
 	}
 	
 	internal fun startActivity(intent: Intent) {
-		if (windowClosed) {
+		if (isClosed) {
 			throw IllegalWindowException(intent, this)
 		}
 		

@@ -3,7 +3,8 @@ package com.github.KamilKurde
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
-import androidx.compose.ui.window.*
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 
@@ -24,15 +25,9 @@ object Application {
 			}
 		}
 		windows.forEach { window ->
-			val windowState = WindowState(
-				width = window.size.width,
-				height = window.size.height,
-				isMinimized = window.isMinimized,
-				placement = window.placement,
-				position = window.position)
 			Window(
 				onCloseRequest = window.onCloseRequest ?: { window.close() },
-				state = windowState,
+				state = window.windowState,
 				title = window.title,
 				icon = window.icon,
 				undecorated = window.undecorated,
@@ -44,11 +39,6 @@ object Application {
 				onPreviewKeyEvent = window.onPreviewKeyEvent,
 				onKeyEvent = window.onKeyEvent,
 				content = {
-					window.apply {
-						size = windowState.size
-						placement = windowState.placement
-						position = windowState.position
-					}
 					val lastLayout by remember { mutableStateOf(window.activityStack.lastOrNull()?.content ?: {}) }
 					AnimatedContent(window.activityStack.lastOrNull())
 					{ activity ->

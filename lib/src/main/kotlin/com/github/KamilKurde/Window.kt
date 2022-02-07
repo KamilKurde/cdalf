@@ -14,7 +14,7 @@ import com.github.KamilKurde.exceptions.IllegalWindowException
 class Window(
 	startingIntent: Intent,
 	title: String = "Untitled",
-	icon: Painter? = null,
+	icon: (@Composable () -> Painter?) = { null },
 	undecorated: Boolean = false,
 	transparent: Boolean = false,
 	resizable: Boolean = true,
@@ -58,7 +58,7 @@ class Window(
 			onCloseRequest = { onCloseRequest?.invoke(this) ?: close() },
 			state = windowState,
 			title = title,
-			icon = icon,
+			icon = icon(),
 			undecorated = undecorated,
 			transparent = transparent,
 			resizable = resizable,

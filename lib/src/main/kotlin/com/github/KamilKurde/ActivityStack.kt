@@ -2,8 +2,8 @@ package com.github.KamilKurde
 
 import androidx.compose.runtime.mutableStateListOf
 
-class ActivityStack(private val parent: Window): Collection<Activity>
-{
+class ActivityStack(private val parent: Window) : Collection<Activity> {
+	
 	private var stack = mutableStateListOf<Activity>()
 	override val size: Int
 		get() = stack.size
@@ -18,15 +18,12 @@ class ActivityStack(private val parent: Window): Collection<Activity>
 	
 	fun clear() = stack.clear()
 	
-	fun push(activity: Activity)
-	{
+	fun push(activity: Activity) {
 		stack.add(activity)
 	}
 	
-	private fun checkStackSize()
-	{
-		if(stack.isEmpty())
-		{
+	private fun checkStackSize() {
+		if (stack.isEmpty()) {
 			parent.close()
 		}
 	}

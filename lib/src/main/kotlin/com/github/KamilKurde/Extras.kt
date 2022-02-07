@@ -18,8 +18,7 @@ data class Extras(private val classToEntry: MutableMap<KClass<*>, MutableMap<Str
 		)
 	}
 	
-	fun <T>put(kclass: KClass<*>, key: String, value: T)
-	{
+	fun <T> put(kclass: KClass<*>, key: String, value: T) {
 		require(kclass.java.isPrimitive || kclass in wrappedClasses) { "value is required to be of primitive type, it is of ${kclass.qualifiedName} instead" }
 		val current = classToEntry[kclass] ?: mutableMapOf()
 		current[key] = value
@@ -31,7 +30,7 @@ data class Extras(private val classToEntry: MutableMap<KClass<*>, MutableMap<Str
 	}
 	
 	@Suppress("UNCHECKED_CAST")
-	fun <T>get(kclass: KClass<*>, key: String): T? = classToEntry[kclass]?.get(key) as T?
+	fun <T> get(kclass: KClass<*>, key: String): T? = classToEntry[kclass]?.get(key) as T?
 	
 	inline fun <reified T> get(key: String): T? = get(T::class, key)
 	

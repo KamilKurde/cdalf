@@ -65,9 +65,9 @@ class YourActivity : Activity() {
 ```
 
 * Starting Activity
-  * Instantiate Intent class and pass your Activity class to it 
-  * Instantiate Window class and pass Intent to it
-  * example:
+	* Instantiate Intent class and pass your Activity class to it
+	* Instantiate Window class and pass Intent to it
+	* example:
 
 ```kotlin
 val intent = Intent(YourActivity::class)

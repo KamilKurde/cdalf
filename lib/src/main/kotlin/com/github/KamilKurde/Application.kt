@@ -10,7 +10,7 @@ object Application {
 	operator fun invoke(main: () -> Unit) {
 		main()
 		application(false) {
-			windows.forEach{ window ->
+			windows.forEach { window ->
 				window.generate()
 			}
 		}

@@ -22,7 +22,7 @@ class Window(
 	focusable: Boolean = true,
 	alwaysOnTop: Boolean = false,
 	windowState: WindowState = WindowState(WindowPlacement.Floating, false, WindowPosition.PlatformDefault, DpSize(800.dp, 600.dp)),
-	onCloseRequest: (() -> Unit)? = null,
+	onCloseRequest: (Window.() -> Unit)? = null,
 	onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
 	onKeyEvent: (KeyEvent) -> Boolean = { false },
 ) {
@@ -55,7 +55,7 @@ class Window(
 	@Composable
 	internal fun generate() {
 		Window(
-			onCloseRequest = onCloseRequest ?: { close() },
+			onCloseRequest = { onCloseRequest?.invoke(this) ?: close() },
 			state = windowState,
 			title = title,
 			icon = icon,

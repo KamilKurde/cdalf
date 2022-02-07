@@ -1,5 +1,7 @@
 package com.github.KamilKurde
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
@@ -38,27 +40,57 @@ class Window(
 	var onCloseRequest by mutableStateOf(onCloseRequest)
 	var onPreviewKeyEvent by mutableStateOf(onPreviewKeyEvent)
 	var onKeyEvent by mutableStateOf(onKeyEvent)
-	var activityStack = ActivityStack(this)
-	var isClosed = false
+	val activityStack = ActivityStack(this)
+	val isClosed get() = this !in Application.windows
+	
+	internal var lastLayout: @Composable () -> Unit = {}
 	
 	init {
 		Application.windows.add(this)
 		startActivity(startingIntent)
 	}
 	
+	@Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
+	@OptIn(ExperimentalAnimationApi::class)
+	@Composable
+	internal fun generate() {
+		Window(
+			onCloseRequest = onCloseRequest ?: { close() },
+			state = windowState,
+			title = title,
+			icon = icon,
+			undecorated = undecorated,
+			transparent = transparent,
+			resizable = resizable,
+			enabled = enabled,
+			focusable = focusable,
+			alwaysOnTop = alwaysOnTop,
+			onPreviewKeyEvent = onPreviewKeyEvent,
+			onKeyEvent = onKeyEvent,
+			content = {
+				AnimatedContent(activityStack.last())
+				{ activity ->
+					if (activity in activityStack) {
+						lastLayout = activity.content
+					}
+					lastLayout()
+				}
+			}
+		)
+	}
+	
 	fun close() {
-		isClosed = true
+		Application.windows.remove(this)
 		activityStack.reversed().forEach {
 			it.finish()
 		}
-		activityStack.clear()
-		Application.windows.remove(this)
 	}
 	
 	internal fun startActivity(intent: Intent) {
 		if (isClosed) {
 			throw IllegalWindowException(intent, this)
 		}
+		@Suppress("NAME_SHADOWING") val intent = intent.copy()
 		
 		val activity = intent.activity
 		val primaryConstructor = intent.activity.constructors.first()
@@ -71,7 +103,7 @@ class Window(
 		primaryConstructor.call().apply {
 			activityStack.push(this)
 			parent = this@Window
-			this.intent = intent.copy()
+			this.intent = intent
 			create()
 			start()
 			resume()

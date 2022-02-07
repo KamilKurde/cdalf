@@ -8,7 +8,7 @@ plugins {
 }
 
 val groupString = "com.github.KamilKurde"
-val versionString = "0.2.1"
+val versionString = "0.2.2"
 val artifactString = "cdalf"
 
 group = groupString
@@ -58,7 +58,6 @@ repositories {
 
 dependencies {
 	implementation(compose.desktop.currentOs)
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib")
 	//testImplementation("org.jetbrains.kotlin:kotlin-test")
 	//testImplementation("org.jetbrains.kotlin:kotlin-test-junit")

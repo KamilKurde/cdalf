@@ -31,7 +31,13 @@ class ActivityStack(private val parent: Window) : Collection<Activity> {
 	fun pop() = stack.removeLast().apply {
 		back()
 		finish()
-	}.also { checkStackSize() }
+	}.also {
+		checkStackSize()
+		stack.lastOrNull()?.apply {
+			resume()
+			start()
+		}
+	}
 	
 	fun remove(activity: Activity) = stack.remove(activity).also { checkStackSize() }
 }

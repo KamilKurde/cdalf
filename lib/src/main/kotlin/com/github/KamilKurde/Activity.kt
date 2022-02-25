@@ -38,7 +38,7 @@ abstract class Activity {
 		this.content = content
 	}
 	
-	fun finish() {
+	internal fun finishActivity() {
 		if (state.stage < 6) {
 			pause()
 		}
@@ -50,6 +50,8 @@ abstract class Activity {
 		}
 		parent.activityStack.remove(this)
 	}
+	
+	fun finish() = parent.activityStack.remove(this)
 	
 	// Each lifecycle event has corresponding invocation method
 	protected open fun onCreate() {}
@@ -104,6 +106,6 @@ abstract class Activity {
 	protected open fun onBackPressed() {}
 	internal fun back() {
 		onBackPressed()
-		finish()
+		finishActivity()
 	}
 }

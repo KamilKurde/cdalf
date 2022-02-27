@@ -82,7 +82,7 @@ class Window(
 	fun close() {
 		Application.windows.remove(this)
 		activityStack.reversed().forEach {
-			it.finishActivity()
+			it.finish()
 		}
 	}
 	

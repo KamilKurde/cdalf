@@ -53,6 +53,8 @@ abstract class Activity {
 	
 	fun finish() = parent.activityStack.remove(this)
 	
+	protected fun exitApplication() = Application.exitApplication()
+	
 	// Each lifecycle event has corresponding invocation method
 	protected open fun onCreate() {}
 	internal fun create() {

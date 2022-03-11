@@ -68,10 +68,10 @@ class Window(
 			onPreviewKeyEvent = onPreviewKeyEvent,
 			onKeyEvent = onKeyEvent,
 			content = {
-				AnimatedContent(activityStack.last())
+				AnimatedContent(activityStack.lastOrNull())
 				{ activity ->
 					if (activity in activityStack) {
-						lastLayout = activity.content
+						lastLayout = activity?.content ?: lastLayout
 					}
 					lastLayout()
 				}

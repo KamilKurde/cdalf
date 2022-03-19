@@ -2,6 +2,7 @@ package com.github.KamilKurde
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
@@ -16,6 +17,7 @@ class Window(
 	title: String = "Untitled",
 	icon: (@Composable () -> Painter?) = { null },
 	splashScreen: (@Composable () -> Unit) = { splashScreen(icon, title) },
+	defaultTheme: Theme? = null,
 	undecorated: Boolean = false,
 	transparent: Boolean = false,
 	resizable: Boolean = true,
@@ -31,6 +33,7 @@ class Window(
 	
 	var title by mutableStateOf(title)
 	var icon by mutableStateOf(icon)
+	val defaultTheme by mutableStateOf(defaultTheme)
 	var undecorated by mutableStateOf(undecorated)
 	var transparent by mutableStateOf(transparent)
 	var resizable by mutableStateOf(resizable)
@@ -76,7 +79,15 @@ class Window(
 							lastLayout = it
 						}
 					}
-					lastLayout()
+					val theme = activity.theme ?: defaultTheme
+					MaterialTheme(
+						theme?.colors ?: MaterialTheme.colors,
+						theme?.typography ?: MaterialTheme.typography,
+						theme?.shapes ?: MaterialTheme.shapes
+					)
+					{
+						lastLayout()
+					}
 				}
 			}
 		)

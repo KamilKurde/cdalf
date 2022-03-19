@@ -7,6 +7,8 @@ abstract class Activity {
 	
 	internal var content: (@Composable () -> Unit)? by mutableStateOf(null)
 	
+	internal var theme: Theme? by mutableStateOf(null)
+	
 	lateinit var parent: Window
 	
 	lateinit var intent: Intent
@@ -36,6 +38,10 @@ abstract class Activity {
 	
 	protected fun setContent(content: @Composable () -> Unit) {
 		this.content = content
+	}
+	
+	protected fun setTheme(theme: Theme?) {
+		this.theme = theme
 	}
 	
 	internal fun finishActivity() {

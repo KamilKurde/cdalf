@@ -40,12 +40,9 @@ class ActivityStack(private val parent: Window) : Collection<Activity> {
 	}
 	
 	fun remove(activity: Activity) {
-		if (activity == stack.lastOrNull())
-		{
+		if (activity == stack.lastOrNull()) {
 			pop()
-		}
-		else
-		{
+		} else {
 			stack.remove(activity)
 			checkStackSize()
 		}

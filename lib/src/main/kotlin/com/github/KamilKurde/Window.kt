@@ -79,7 +79,7 @@ class Window(
 							lastLayout = it
 						}
 					}
-					val theme = activity.theme ?: defaultTheme
+					val theme = activity?.theme ?: defaultTheme
 					MaterialTheme(
 						theme?.colors ?: MaterialTheme.colors,
 						theme?.typography ?: MaterialTheme.typography,

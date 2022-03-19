@@ -15,6 +15,7 @@ class Window(
 	startingIntent: Intent,
 	title: String = "Untitled",
 	icon: (@Composable () -> Painter?) = { null },
+	splashScreen: (@Composable () -> Unit) = { splashScreen(icon, title) },
 	undecorated: Boolean = false,
 	transparent: Boolean = false,
 	resizable: Boolean = true,
@@ -43,7 +44,7 @@ class Window(
 	val activityStack = ActivityStack(this)
 	val isClosed get() = this !in Application.windows
 	
-	internal var lastLayout: @Composable () -> Unit = {}
+	internal var lastLayout: @Composable () -> Unit = splashScreen
 	
 	init {
 		Application.windows.add(this)
@@ -71,7 +72,9 @@ class Window(
 				AnimatedContent(activityStack.lastOrNull())
 				{ activity ->
 					if (activity in activityStack) {
-						lastLayout = activity?.content ?: lastLayout
+						activity?.content?.let {
+							lastLayout = it
+						}
 					}
 					lastLayout()
 				}

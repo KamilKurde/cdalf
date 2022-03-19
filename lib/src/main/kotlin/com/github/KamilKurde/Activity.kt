@@ -5,7 +5,7 @@ import androidx.compose.runtime.*
 @Suppress("unused")
 abstract class Activity {
 	
-	internal var content: @Composable () -> Unit by mutableStateOf({})
+	internal var content: (@Composable () -> Unit)? by mutableStateOf(null)
 	
 	lateinit var parent: Window
 	

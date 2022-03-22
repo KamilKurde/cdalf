@@ -2,8 +2,11 @@ package com.github.KamilKurde
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.DpSize
@@ -86,7 +89,9 @@ class Window(
 						theme?.shapes ?: MaterialTheme.shapes
 					)
 					{
-						lastLayout()
+						Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
+							lastLayout()
+						}
 					}
 				}
 			}

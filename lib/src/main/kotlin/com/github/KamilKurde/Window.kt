@@ -1,7 +1,6 @@
 package com.github.KamilKurde
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.MaterialTheme
@@ -36,7 +35,7 @@ class Window(
 	
 	var title by mutableStateOf(title)
 	var icon by mutableStateOf(icon)
-	val defaultTheme by mutableStateOf(defaultTheme)
+	var defaultTheme by mutableStateOf(defaultTheme)
 	var undecorated by mutableStateOf(undecorated)
 	var transparent by mutableStateOf(transparent)
 	var resizable by mutableStateOf(resizable)
@@ -75,22 +74,24 @@ class Window(
 			onPreviewKeyEvent = onPreviewKeyEvent,
 			onKeyEvent = onKeyEvent,
 			content = {
-				AnimatedContent(activityStack.lastOrNull())
+				AnimatedContent(activityStack.lastOrNull(), modifier = Modifier.background(defaultTheme?.colors?.background ?: MaterialTheme.colors.background))
 				{ activity ->
 					if (activity in activityStack) {
 						activity?.content?.let {
 							lastLayout = it
 						}
 					}
-					val theme = activity?.theme ?: defaultTheme
-					MaterialTheme(
-						theme?.colors ?: MaterialTheme.colors,
-						theme?.typography ?: MaterialTheme.typography,
-						theme?.shapes ?: MaterialTheme.shapes
-					)
+					Crossfade(activity?.theme ?: defaultTheme)
 					{
-						Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
-							lastLayout()
+						MaterialTheme(
+							it?.colors ?: MaterialTheme.colors,
+							it?.typography ?: MaterialTheme.typography,
+							it?.shapes ?: MaterialTheme.shapes
+						)
+						{
+							Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
+								lastLayout()
+							}
 						}
 					}
 				}

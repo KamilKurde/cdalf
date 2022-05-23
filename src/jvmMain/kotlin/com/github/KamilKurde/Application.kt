@@ -11,7 +11,6 @@ import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import kotlin.system.exitProcess
 
 actual object Application : ApplicationContext() {
 	
@@ -37,7 +36,10 @@ actual object Application : ApplicationContext() {
 		}
 		application(false) {
 			Window(
-				onCloseRequest = { onCloseRequest?.invoke() ?: close() },
+				onCloseRequest = {
+					close()
+					exitApplication()
+				},
 				state = windowState,
 				title = title,
 				icon = icon(),
@@ -77,6 +79,5 @@ actual object Application : ApplicationContext() {
 	}
 	
 	internal actual fun closeImpl() {
-		exitProcess(0)
 	}
 }

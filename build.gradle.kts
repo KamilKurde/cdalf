@@ -6,7 +6,7 @@ plugins {
 }
 
 val groupString = "com.github.KamilKurde"
-val versionString = "0.3.0"
+val versionString = "0.3.1"
 val artifactString = "cdalf"
 
 group = groupString
@@ -82,4 +82,9 @@ kotlin {
 			}
 		}
 	}
+}
+
+tasks.named("sourcesJar")
+{
+	dependsOn("clean")
 }

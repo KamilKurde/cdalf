@@ -83,8 +83,3 @@ kotlin {
 		}
 	}
 }
-
-tasks.named("sourcesJar")
-{
-	dependsOn("clean")
-}

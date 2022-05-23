@@ -8,15 +8,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 
-@Composable
-fun splashScreen(icon: (@Composable () -> Painter?), label: String) {
+internal actual val splashScreen: @Composable () -> Unit = {
+	val icon = Application.icon
 	Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 		if (icon() != null) {
-			Image(icon()!!, label)
+			Image(icon()!!, Application.title)
 		} else {
-			Text(label, color = MaterialTheme.colors.onSurface)
+			Text(Application.title, color = MaterialTheme.colors.onSurface)
 		}
 	}
 }

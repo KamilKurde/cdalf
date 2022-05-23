@@ -2,7 +2,7 @@ package com.github.KamilKurde
 
 import androidx.compose.runtime.mutableStateListOf
 
-class ActivityStack(private val parent: Window) : Collection<Activity> {
+internal class ActivityStack : Collection<Activity> {
 	
 	private var stack = mutableStateListOf<Activity>()
 	override val size: Int
@@ -24,7 +24,7 @@ class ActivityStack(private val parent: Window) : Collection<Activity> {
 	
 	private fun checkStackSize() {
 		if (stack.isEmpty()) {
-			parent.close()
+			Application.close()
 		}
 	}
 	

@@ -2,6 +2,8 @@
 
 ###### Simple framework/library designed to make desktop app development easier for Android developers
 
+###### It is possible to use this both in compose desktop and compose for web, however web support is experimental and may not work at all.
+
 ## Installation
 
 ###### In build.gradle.kts
@@ -11,9 +13,9 @@
 ```kotlin
 plugins {
 	// other plugins
-	kotlin("jvm") version "1.6.10"
-	id("org.jetbrains.compose") version "1.0.1"
-	application
+	kotlin(PLATFORM) version "1.6.10" // replace platform with jvm or js
+	id("org.jetbrains.compose") version "1.1.1"
+	application // Only for desktop
 }
  ```
 
@@ -23,6 +25,7 @@ plugins {
 repositories {
 	// other repositories
 	maven { url = uri("https://jitpack.io") }
+	jetbrainsCompose() // Only for web
 }
 ```
 
@@ -31,7 +34,7 @@ repositories {
 ```kotlin
 dependencies {
 	// other dependencies
-	implementation(compose.desktop.currentOs)
+	implementation(compose.PLATFORM) // replace platform with desktop.currentOs for desktop and with "web.core" for web
 	implementation("com.github.KamilKurde:cdalf:TAG")
 }
 ```
@@ -71,13 +74,13 @@ class YourActivity : Activity() {
 
 ```kotlin
 val intent = Intent(YourActivity::class)
-Window(intent)
+startActivity(intent)
 ```
 
 ##### EXAMPLE OF SIMPLE APP
 
 ```kotlin
-import androidx.compose.material.*
+import androidx.compose.material.Text
 import com.github.KamilKurde.*
 
 class YourActivity : Activity() {
@@ -91,6 +94,6 @@ class YourActivity : Activity() {
 
 fun main() = Application {
 	val intent = Intent(YourActivity::class)
-	Window(intent)
+	startActivity(intent)
 }
 ```

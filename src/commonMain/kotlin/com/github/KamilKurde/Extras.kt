@@ -4,8 +4,7 @@ import kotlin.reflect.KClass
 
 data class Extras(private val classToEntry: MutableMap<KClass<*>, MutableMap<String, Any?>> = mutableMapOf()) {
 	companion object {
-		
-		val wrappedClasses = setOf<KClass<*>>(
+		val primitiveTypes = setOf<KClass<*>>(
 			Byte::class,
 			Short::class,
 			Int::class,
@@ -19,7 +18,7 @@ data class Extras(private val classToEntry: MutableMap<KClass<*>, MutableMap<Str
 	}
 	
 	fun <T> put(kclass: KClass<*>, key: String, value: T) {
-		require(kclass.java.isPrimitive || kclass in wrappedClasses) { "value is required to be of primitive type, it is of ${kclass.qualifiedName} instead" }
+		require(kclass in primitiveTypes) { "value is required to be of primitive type, it is of ${kclass.simpleName} instead" }
 		val current = classToEntry[kclass] ?: mutableMapOf()
 		current[key] = value
 		classToEntry[kclass] = current

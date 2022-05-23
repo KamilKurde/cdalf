@@ -4,7 +4,6 @@ import kotlin.reflect.KClass
 
 @Suppress("unused")
 data class Intent(val activity: KClass<out Activity>, val extras: Extras = Extras()) {
-	
 	inline fun <reified T> putExtra(key: String, value: T): Intent {
 		extras.put(key, value)
 		return this

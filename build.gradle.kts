@@ -19,9 +19,6 @@ java {
 
 publishing.publications.forEach { it ->
 	if (it is MavenPublication) {
-		it.groupId = groupString
-		it.artifactId = artifactString
-		it.version = versionString
 		it.pom {
 			name.set(artifactString)
 			description.set("Compose Desktop Android-like Framework")

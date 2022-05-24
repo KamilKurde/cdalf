@@ -35,7 +35,7 @@ repositories {
 dependencies {
 	// other dependencies
 	implementation(compose.PLATFORM) // replace platform with desktop.currentOs for desktop and with "web.core" for web
-	implementation("com.github.KamilKurde:cdalf:TAG")
+	implementation("com.github.KamilKurde.cdalf:cdalf-PLATFORM:TAG") // replace platform with jvm for desktop, and with js for web
 }
 ```
 

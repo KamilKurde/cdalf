@@ -20,14 +20,13 @@ java {
 publishing.publications.forEach { it ->
 	if (it is MavenPublication) {
 		it.pom {
-			name.set(artifactString)
 			description.set("Compose Desktop Android-like Framework")
-			url.set("https://github.com/KamilKurde/cdalf")
+			url.set("https://github.com/KamilKurde/$artifactString")
 			scm {
-				url.set("https://github.com/KamilKurde/cdalf")
+				url.set("https://github.com/KamilKurde/$artifactString")
 			}
 			issueManagement {
-				url.set("https://github.com/KamilKurde/cdalf/issues")
+				url.set("https://github.com/KamilKurde/$artifactString/issues")
 			}
 			developers {
 				developer {

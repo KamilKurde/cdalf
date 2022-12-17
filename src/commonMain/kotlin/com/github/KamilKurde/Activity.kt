@@ -11,7 +11,7 @@ abstract class Activity: Themed() {
 	
 	fun startActivity(intent: Intent) = Application.startActivity(intent)
 	
-	// State enum with 'stage' representing activity lifecyle eg. for checking if activity did start you can check if state.stage >= 3
+	// State enum with 'stage' representing activity lifecycle eg. for checking if activity did start you can check if state.stage >= 3
 	enum class State(internal val stage: Int) {
 		
 		Restarting(0),

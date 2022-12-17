@@ -1,9 +1,16 @@
 package com.github.KamilKurde
 
 import androidx.compose.runtime.*
+import kotlinx.coroutines.*
 
 @Suppress("unused")
-abstract class Activity: Themed() {
+abstract class Activity : Themed() {
+	
+	/**
+	 * Scope to use in activity-related jobs.
+	 * It's canceled *before* [onDestroy] call
+	 */
+	val activityScope: CoroutineScope = CoroutineScope(Job())
 	
 	internal var content: (@Composable () -> Unit)? by mutableStateOf(null)
 	
@@ -90,6 +97,7 @@ abstract class Activity: Themed() {
 	protected open fun onDestroy() {}
 	internal fun destroy() {
 		state = State.Destroying
+		activityScope.cancel("Activity is being destroyed")
 		onDestroy()
 		state = State.Destroyed
 	}

@@ -68,12 +68,12 @@ class YourActivity : Activity() {
 ```
 
 * Starting Activity
-	* Instantiate Intent class and pass your Activity class to it
-	* Instantiate Window class and pass Intent to it
+	* Instantiate Intent class and pass no-argument factory/constructor of your Activity class to it
+	* Pass Intent to startActivity method
 	* example:
 
 ```kotlin
-val intent = Intent(YourActivity::class)
+val intent = Intent(::YourActivity)
 startActivity(intent)
 ```
 

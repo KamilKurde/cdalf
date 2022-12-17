@@ -61,9 +61,6 @@ kotlin {
 		val commonMain by getting {
 			dependencies {
 				api(compose.runtime)
-				implementation("org.jetbrains.kotlin:kotlin-stdlib")
-				// Reflection API required for activity instantiation
-				api(kotlin("reflect"))
 			}
 		}
 		val jvmMain by getting {

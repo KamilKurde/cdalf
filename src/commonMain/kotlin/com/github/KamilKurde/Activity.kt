@@ -1,7 +1,6 @@
 package com.github.KamilKurde
 
 import androidx.compose.runtime.*
-import kotlin.reflect.KClass
 
 @Suppress("unused")
 abstract class Activity: Themed() {
@@ -101,5 +100,3 @@ abstract class Activity: Themed() {
 		finishActivity()
 	}
 }
-
-expect fun KClass<out Activity>.instantiate(): Activity

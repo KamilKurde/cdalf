@@ -18,7 +18,7 @@ open class ApplicationContext internal constructor() {
 	
 	fun startActivity(intent: Intent) {
 		val copiedIntent = intent.copy()
-		val activity = copiedIntent.activity.instantiate()
+		val activity = copiedIntent.activity()
 		activityStack.lastOrNull()?.let {
 			it.pause()
 			it.stop()

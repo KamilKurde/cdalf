@@ -1,6 +1,6 @@
 plugins {
-	kotlin("multiplatform") version "1.6.10"
-	id("org.jetbrains.compose") version "1.1.1"
+	kotlin("multiplatform") version "1.7.20"
+	id("org.jetbrains.compose") version "1.2.2"
 	`java-library`
 	`maven-publish`
 }

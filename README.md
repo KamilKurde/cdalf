@@ -13,19 +13,30 @@
 ```kotlin
 plugins {
 	// other plugins
-	kotlin(PLATFORM) version "1.6.10" // replace platform with jvm or js
-	id("org.jetbrains.compose") version "1.1.1"
+	kotlin(PLATFORM) version "1.7.20" // replace platform with jvm or js
+	id("org.jetbrains.compose") version "1.2.2"
 	application // Only for desktop
 }
  ```
 
-* add jitpack to project repositories:
+* add compose dev repo to plugin repositories in settings.gradle.kts
+```kotlin
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
+```
+
+* add jitpack and compose to project repositories:
 
 ```kotlin
 repositories {
 	// other repositories
 	maven { url = uri("https://jitpack.io") }
-	jetbrainsCompose() // Only for web
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    google()
 }
 ```
 

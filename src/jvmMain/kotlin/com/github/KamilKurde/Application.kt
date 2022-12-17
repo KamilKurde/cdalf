@@ -11,6 +11,7 @@ import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import kotlin.system.exitProcess
 
 actual object Application : ApplicationContext() {
 	
@@ -26,7 +27,6 @@ actual object Application : ApplicationContext() {
 	var onPreviewKeyEvent by mutableStateOf<(KeyEvent) -> Boolean>({ false })
 	var onKeyEvent by mutableStateOf<(KeyEvent) -> Boolean>({ false })
 	
-	@Suppress("OPT_IN_IS_NOT_ENABLED")
 	@OptIn(ExperimentalAnimationApi::class)
 	actual operator fun invoke(exceptionHandler: (Exception) -> Unit, main: Application.() -> Unit) {
 		try {
@@ -79,5 +79,6 @@ actual object Application : ApplicationContext() {
 	}
 	
 	internal actual fun closeImpl() {
+		exitProcess(0)
 	}
 }

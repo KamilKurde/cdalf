@@ -6,7 +6,7 @@ plugins {
 }
 
 val groupString = "com.github.KamilKurde"
-val versionString = "0.3.1"
+val versionString = "0.4.0"
 val artifactString = "cdalf"
 
 group = groupString

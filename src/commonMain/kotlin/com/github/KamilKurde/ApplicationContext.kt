@@ -2,7 +2,7 @@ package com.github.KamilKurde
 
 import androidx.compose.runtime.*
 
-open class ApplicationContext internal constructor() {
+abstract class ApplicationContext internal constructor(){
 	
 	var title by mutableStateOf("CDALF application")
 	var onCloseRequest by mutableStateOf<(() -> Unit)?>(null)
